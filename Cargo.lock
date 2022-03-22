@@ -2005,7 +2005,7 @@ dependencies = [
  "itertools 0.10.3",
  "libsecp256k1 0.7.0",
  "once_cell",
- "rand 0.8.5",
+ "rand 0.7.3",
  "serde",
  "sha2 0.10.2",
  "sha3 0.10.1",
