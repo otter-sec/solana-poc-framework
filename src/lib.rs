@@ -33,8 +33,7 @@ use solana_runtime::{
     accounts_db::AccountShrinkThreshold,
     accounts_index::AccountSecondaryIndexes,
     bank::{
-        Bank, Builtin, Builtins, NonceRollbackInfo, TransactionBalancesSet,
-        TransactionResults,
+        Bank, Builtin, Builtins, NonceRollbackInfo, TransactionBalancesSet, TransactionResults,
     },
     genesis_utils,
 };
@@ -145,7 +144,8 @@ pub trait Environment {
             lamports,
             space as u64,
             &owner,
-        )).assert_success();
+        ))
+        .assert_success();
     }
 
     /// Executes a transaction constructing an empty rent-excempt account with the specified amount of space, owned by the provided program.
@@ -157,7 +157,8 @@ pub trait Environment {
             self.get_rent_excemption(space),
             space as u64,
             &owner,
-        )).assert_success();
+        ))
+        .assert_success();
     }
 
     /// Executes a transaction constructing a token mint. The account needs to be empty and belong to system for this to work.
@@ -187,7 +188,8 @@ pub trait Environment {
                 .unwrap(),
             ],
             &[mint],
-        ).assert_success();
+        )
+        .assert_success();
     }
 
     /// Executes a transaction that mints tokens from a mint to an account belonging to that mint.
@@ -203,7 +205,8 @@ pub trait Environment {
             )
             .unwrap()],
             &[authority],
-        ).assert_success();
+        )
+        .assert_success();
     }
 
     /// Executes a transaction constructing a token account of the specified mint. The account needs to be empty and belong to system for this to work.
@@ -227,7 +230,8 @@ pub trait Environment {
                 .unwrap(),
             ],
             &[account],
-        ).assert_success();
+        )
+        .assert_success();
     }
 
     /// Executes a transaction constructing the associated token account of the specified mint belonging to the owner. This will fail if the account already exists.
@@ -264,7 +268,8 @@ pub trait Environment {
             self.get_rent_excemption(data.len()),
             data.len() as u64,
             &bpf_loader::id(),
-        )).assert_success();
+        ))
+        .assert_success();
 
         let mut offset = 0usize;
         for chunk in data.chunks(900) {
@@ -277,7 +282,8 @@ pub trait Environment {
                     chunk.to_vec(),
                 )],
                 &[account],
-            ).assert_success();
+            )
+            .assert_success();
             offset += chunk.len();
         }
     }
@@ -299,7 +305,8 @@ pub trait Environment {
                     &bpf_loader::id(),
                 )],
                 &[&keypair],
-            ).assert_success();
+            )
+            .assert_success();
         }
 
         keypair.pubkey()
@@ -843,7 +850,7 @@ impl PrintableTransaction for ConfirmedTransaction {
             Some(meta) if meta.status.is_err() => {
                 self.print();
                 panic!("tx failed!")
-            },
+            }
             _ => (),
         }
     }
@@ -861,7 +868,7 @@ impl PrintableTransaction for EncodedConfirmedTransaction {
             Some(meta) if meta.err.is_some() => {
                 self.print();
                 panic!("tx failed!")
-            },
+            }
             _ => (),
         }
     }
