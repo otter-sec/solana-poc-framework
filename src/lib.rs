@@ -329,6 +329,8 @@ pub trait Environment {
 pub struct LocalEnvironment {
     bank: Bank,
     faucet: Keypair,
+    // The environment implicitly depends on the TempDir staying alive for its lifetime
+    _tmpdir: TempDir,
 }
 
 impl LocalEnvironment {
@@ -705,11 +707,11 @@ impl LocalEnvironmentBuilder {
 
     /// Finalizes the environment.
     pub fn build(&mut self) -> LocalEnvironment {
-        let tmpdir = Path::new("/tmp/");
+        let tmpdir = TempDir::new().expect("make tempdir");
 
         let bank = Bank::new_with_paths(
             &self.config,
-            vec![tmpdir.to_path_buf()],
+            vec![tmpdir.path().to_path_buf()],
             &[],
             None,
             Some(&Builtins {
@@ -735,6 +737,7 @@ impl LocalEnvironmentBuilder {
         LocalEnvironment {
             bank,
             faucet: clone_keypair(&self.faucet),
+            _tmpdir: tmpdir,
         }
     }
 }
