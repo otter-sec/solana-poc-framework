@@ -325,7 +325,7 @@ pub trait Environment {
     }
 
     /// Gets and deserializes an account. None if the account does not exist.
-    fn get_serde_deserialized_account<'a, T: DeserializeOwned>(&self, pubkey: Pubkey) -> Option<T> {
+    fn get_serde_deserialized_account<T: DeserializeOwned>(&self, pubkey: Pubkey) -> Option<T> {
         let acc = self.get_account(pubkey)?;
         Some(bincode::deserialize(&acc.data).unwrap())
     }
@@ -353,6 +353,12 @@ impl LocalEnvironment {
 
     pub fn bank(&mut self) -> &mut Bank {
         &mut self.bank
+    }
+}
+
+impl Default for LocalEnvironment {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
