@@ -94,7 +94,7 @@ pub trait Environment {
         let message = Message::new(instructions, Some(&self.payer().pubkey()));
         let num_sigs: usize = message.header.num_required_signatures.into();
         let required_sigs = message.account_keys[..num_sigs]
-            .into_iter()
+            .iter()
             .copied()
             .collect::<HashSet<_>>();
         let provided_sigs = signer_vec
@@ -103,11 +103,11 @@ pub trait Environment {
             .collect::<HashSet<_>>();
 
         for key in required_sigs.difference(&provided_sigs) {
-            println!("missing signature from {}", key.to_string());
+            println!("missing signature from {}", key);
         }
 
         for key in provided_sigs.difference(&required_sigs) {
-            println!("unnecessary signature from {}", key.to_string());
+            println!("unnecessary signature from {}", key);
         }
 
         Transaction::new(&signer_vec, message, self.get_recent_blockhash())
@@ -120,7 +120,7 @@ pub trait Environment {
         signers: &[&Keypair],
     ) -> EncodedConfirmedTransaction {
         let tx = self.tx_with_instructions(instructions, signers);
-        return self.execute_transaction(tx);
+        self.execute_transaction(tx)
     }
 
     /// Assemble the given instructions into a transaction and sign it. All transactions executed by this method are signed and payed for by the payer.
@@ -132,14 +132,14 @@ pub trait Environment {
     ) -> EncodedConfirmedTransaction {
         let tx = self.tx_with_instructions(instructions, signers);
         println!("{:#?}", &tx);
-        return self.execute_transaction(tx);
+        self.execute_transaction(tx)
     }
 
     /// Executes a transaction constructing an empty account with the specified amount of space and lamports, owned by the provided program.
     fn create_account(&mut self, keypair: &Keypair, lamports: u64, space: usize, owner: Pubkey) {
         self.execute_transaction(system_transaction::create_account(
             &self.payer(),
-            &keypair,
+            keypair,
             self.get_recent_blockhash(),
             lamports,
             space as u64,
@@ -152,7 +152,7 @@ pub trait Environment {
     fn create_account_rent_excempt(&mut self, keypair: &Keypair, space: usize, owner: Pubkey) {
         self.execute_transaction(system_transaction::create_account(
             &self.payer(),
-            &keypair,
+            keypair,
             self.get_recent_blockhash(),
             self.get_rent_excemption(space),
             space as u64,
@@ -603,11 +603,11 @@ impl LocalEnvironmentBuilder {
             pubkey,
             spl_token::ID,
             spl_token::state::Mint {
-                mint_authority: COption::from(mint_authority.map(|c| c.clone())),
+                mint_authority: COption::from(mint_authority),
                 supply,
                 decimals,
                 is_initialized: true,
-                freeze_authority: COption::from(freeze_authority.map(|c| c.clone())),
+                freeze_authority: COption::from(freeze_authority),
             },
         )
     }
