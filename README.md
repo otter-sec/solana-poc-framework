@@ -1,6 +1,8 @@
 # Solana PoC Framework
 
-[![](https://img.shields.io/crates/v/poc-framework)](https://crates.io/crates/poc-framework) [![](https://docs.rs/poc-framework/badge.svg)](https://docs.rs/poc-framework/)
+[![](https://img.shields.io/crates/v/poc-framework-osec)](https://crates.io/crates/poc-framework-osec) [![](https://docs.rs/poc-framework-osec/badge.svg)](https://docs.rs/poc-framework-osec/)
+
+This project is a fork of [poc-framework](https://crates.io/crates/poc-framework).
 
 **DISCLAIMER: any illegal usage of this framework is heavily discouraged. Most projects on Solana offer a more than generous bug bounty. Also you don't want your kneecaps broken.**
 
@@ -8,7 +10,7 @@
 To get started, just add the following line to the `dependencies` section in your `Cargo.toml`:
 ```toml
 [dependencies]
-poc-framework = "0.1.4"
+poc-framework-osec = "0.1.0"
 ```
 This crate already re-exports every Solana dependency you should need.
 
