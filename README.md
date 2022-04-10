@@ -10,7 +10,7 @@ This project is a fork of [poc-framework](https://crates.io/crates/poc-framework
 To get started, just add the following line to the `dependencies` section in your `Cargo.toml`:
 ```toml
 [dependencies]
-poc-framework-osec = "0.1.0"
+poc-framework-osec = "0.1.1"
 ```
 This crate already re-exports every Solana dependency you should need.
 

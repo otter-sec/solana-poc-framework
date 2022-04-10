@@ -1,6 +1,6 @@
 [package]
 name = "poc-framework-osec"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2018"
 repository = "https://github.com/otter-sec/solana-poc-framework"
 readme = "README.md"
